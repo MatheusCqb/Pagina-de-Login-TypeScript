@@ -1,0 +1,17 @@
+{
+  "HomePage": {
+    "title": "Hello world!",
+    "about": "Go to the about page"
+  },
+
+  "LoginPage": {
+    "rememberme": "Remember me",
+    "forgotPassword": "Forgot your password?",
+    "login": "Log In",
+    "register": "Register",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "or": "or",
+    "loginWith": "Log in with"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "HomePage": {
+    "title": "Olá mundo!",
+    "about": "Vá para a página sobre"
+  },
+
+  "LoginPage": {
+    "rememberme": "Lembrar de mim",
+    "forgotPassword": "Esqueceu sua senha?",
+    "login": "Entrar",
+    "register": "Registrar",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Senha",
+    "or": "ou",
+    "loginWith": "Entrar com"
+  }
+}
