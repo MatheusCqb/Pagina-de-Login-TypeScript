@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+---
 
-First, run the development server:
+# 📑 Estrutura geral
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+* **Tipo de componente**: `React.FC` (React Functional Component).
+* **Localização**: `frontend/src/app/[locale]/login/page.tsx`.
+* **Recursos usados**:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+  * **React Hooks** → `useState` para estados locais.
+  * **Zod** → validação de formulário.
+  * **Next-intl** → tradução com `useTranslations`.
+  * **NextAuth** → login com credenciais e provedores sociais.
+  * **nookies** (cookies) → importado mas não usado nesse trecho.
+  * **TailwindCSS** → estilização dos elementos.
+  * **Imagens** → ícones SVG para campos e botões sociais.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# 🔑 Estados principais
 
-## Learn More
+* `formData`: guarda os valores (`email`, `password`, `confirmPassword`).
+* `errors`: mensagens de erro de validação.
+* `showPassword`: controla exibição/ocultação da senha.
+* `activeTab`: define se está na aba **login** ou **register**.
+* `t`: função de tradução (ex: `t("emailInvalid")`).
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# 📋 Validação com Zod
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+O schema (`schema`) exige:
 
-## Deploy on Vercel
+* `email` válido.
+* `password` com:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+  * Mínimo 8 caracteres,
+  * Letra maiúscula,
+  * Letra minúscula,
+  * Número,
+  * Símbolo especial.
+* `confirmPassword` → deve ser igual à senha.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Se falhar, os erros são salvos em `errors` e exibidos no formulário.
+
+---
+
+# 🖊️ Funções principais
+
+* **`handleTogglePassword`**: alterna `showPassword` (exibir ou esconder senha).
+* **`handleChange`**: atualiza `formData` conforme digita.
+* **`handleSubmit`**:
+
+  1. Previne refresh da página.
+  2. Valida os dados com Zod.
+  3. Se válido:
+
+     * Se estiver na aba `login`, chama `signIn("credentials")` do NextAuth.
+     * Se der erro, mostra `"Email ou senha inválidos"`.
+     * Se sucesso, loga o usuário.
+
+---
+
+# 🖼️ Renderização da tela
+
+1. **Container principal** → fundo escuro (`bg-[#111111]`) centralizado.
+2. **Caixa do formulário** → borda arredondada, sombra, fundo cinza escuro.
+3. **Tabs**: "login" e "register", com destaque roxo na aba ativa.
+4. **Formulário**:
+
+   * Campo email (ícone envelope).
+   * Campo senha (ícone cadeado + botão olho para alternar visibilidade).
+   * Campo confirmar senha (somente no modo register).
+   * Checkbox:
+
+     * `login`: “Remember me”.
+     * `register`: aceitar termos e política.
+   * Botão roxo de submit → exibe `Login` ou `Register` conforme aba.
+5. **Separador "or"** → linha horizontal com texto central.
+6. **Login social** → botões com ícones:
+
+   * Google
+   * Facebook
+   * Discord
+
+---
+
+# ⚙️ Fluxo esperado
+
+1. Usuário escolhe aba (**login** ou **register**).
+2. Preenche email/senha (+ confirmar senha em registro).
+3. Código valida → mostra erros em vermelho caso inválido.
+4. Se login → tenta autenticar via **NextAuth credentials**.
+   Se registro → por enquanto só valida, mas poderia ser integrado com API.
+5. Alternativamente, pode logar via Google, Facebook ou Discord (NextAuth providers).
+
+---
+
+👉 Em resumo:
+Esse código é um **formulário completo de login/registro** com **validação forte de senha**, **tradução**, **estilização moderna em dark mode** e **login social integrado** via NextAuth.
+
+---
+
+
