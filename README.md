@@ -1,4 +1,5 @@
 
+<img width="1024" height="1024" alt="FALK" src="https://github.com/user-attachments/assets/085f8875-9173-4895-bde2-83e721831424" />
 ---
 
 # 📑 Estrutura geral
